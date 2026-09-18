@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI-assisted supply-chain disruption intelligence and scenario planning prototype">
+  <meta name="theme-color" content="#07101c">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ChainSight">
+  <title>ChainSight — Supply Chain Intelligence</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1220'/%3E%3Cpath d='M16 23h17M31 17l7 6-7 6M48 41H31M33 35l-7 6 7 6' fill='none' stroke='%232dd4bf' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+:root{--bg:#07101c;--sidebar:#091320;--panel:#0e1b2a;--panel2:#111f30;--line:#213149;--text:#edf4ff;--muted:#8ea0b8;--teal:#2dd4bf;--cyan:#38bdf8;--red:#fb5471;--amber:#fbbf24;--green:#34d399;--shadow:0 18px 45px rgba(0,0,0,.23)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 82% 0,#10253c 0,transparent 30%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:16px;min-height:100vh}.sidebar{width:245px;position:fixed;inset:0 auto 0 0;background:rgba(7,16,28,.95);border-right:1px solid var(--line);padding:28px 18px;display:flex;flex-direction:column;z-index:10}.brand{color:var(--text);text-decoration:none;display:flex;align-items:center;gap:12px;padding:0 9px 32px}.brand-mark{display:grid;place-items:center;width:39px;height:39px;border-radius:11px;background:linear-gradient(135deg,var(--teal),var(--cyan));color:#03121b;font-weight:900;letter-spacing:-1px}.brand strong,.brand small{display:block}.brand strong{font-size:1.08rem}.brand small{color:var(--muted);font-size:.72rem;margin-top:2px}.sidebar nav{display:grid;gap:7px}.nav-item{width:100%;border:0;background:transparent;color:var(--muted);font:inherit;text-align:left;padding:13px 12px;border-radius:9px;cursor:pointer;transition:.2s}.nav-item span{font-size:.7rem;margin-right:12px;color:#5f728d}.nav-item:hover,.nav-item.active{color:var(--text);background:#132236}.nav-item.active{box-shadow:inset 3px 0 var(--teal)}.nav-item.active span{color:var(--teal)}.system-state{margin-top:auto;border:1px solid var(--line);border-radius:10px;padding:13px;display:flex;gap:10px;align-items:center}.system-state strong,.system-state small{display:block;font-size:.75rem}.system-state small{color:var(--muted);margin-top:3px}.pulse{width:9px;height:9px;background:var(--green);border-radius:50%;box-shadow:0 0 0 6px rgba(52,211,153,.1)}main{margin-left:245px;padding:0 34px 48px;max-width:1700px}.topbar{min-height:108px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);margin-bottom:25px}.eyebrow{font-size:.7rem;font-weight:800;letter-spacing:.15em;color:#6f86a4;margin:0 0 7px}.topbar h1{font-size:1.75rem;letter-spacing:-.04em;margin:0}.top-actions{display:flex;align-items:center;gap:10px}.timestamp{font-size:.77rem;color:var(--muted);margin-right:8px}.primary,.secondary{border-radius:8px;padding:10px 15px;font:600 .85rem inherit;cursor:pointer;transition:.18s}.primary{border:1px solid var(--teal);background:var(--teal);color:#03231f}.primary:hover{filter:brightness(1.08);transform:translateY(-1px)}.secondary{border:1px solid #31435d;background:transparent;color:#b8c6d8}.secondary:hover{border-color:#6b7d97;color:white}.view{display:none}.view.active{display:block}.alert-banner{border:1px solid rgba(251,84,113,.35);background:linear-gradient(90deg,rgba(251,84,113,.12),rgba(251,84,113,.025));border-radius:12px;padding:15px 18px;display:flex;gap:14px;align-items:center;margin-bottom:18px}.alert-icon{width:34px;height:34px;flex:0 0 34px;border-radius:50%;display:grid;place-items:center;background:var(--red);font-weight:900}.alert-banner strong{font-size:.92rem}.alert-banner p{margin:3px 0 0;color:#aebed0;font-size:.83rem}.alert-banner button{margin-left:auto;background:none;border:0;color:#ff8aa0;font-weight:700;cursor:pointer}.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}.kpi,.panel{background:linear-gradient(145deg,rgba(17,31,48,.98),rgba(12,25,40,.98));border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}.kpi{padding:17px 18px}.kpi span,.metric-result span{display:block;color:var(--muted);font-size:.78rem}.kpi strong{font-size:1.85rem;display:block;margin:7px 0 5px;letter-spacing:-.04em}.kpi strong small{font-size:.82rem;color:var(--muted);letter-spacing:0}.kpi em{font-style:normal;color:#8fa3bc;font-size:.72rem}.kpi .down{color:#ff758c}.dashboard-grid{display:grid;grid-template-columns:1fr 1fr .82fr;gap:14px}.panel{padding:20px}.span-2{grid-column:span 2}.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;margin-bottom:17px}.panel h2{font-size:1.02rem;margin:0;letter-spacing:-.015em}.badge,.confidence{font-size:.68rem;font-weight:800;border-radius:100px;padding:6px 9px;white-space:nowrap}.critical{background:rgba(251,84,113,.12);color:#ff8298;border:1px solid rgba(251,84,113,.25)}.confidence{background:rgba(45,212,191,.1);color:var(--teal)}.risk-row{display:grid;grid-template-columns:8px 1.3fr .8fr .45fr .35fr;align-items:center;gap:14px;padding:13px 0;border-top:1px solid rgba(49,66,91,.65)}.risk-row:first-child{border-top:0}.risk-dot{width:7px;height:30px;border-radius:4px;background:var(--red)}.risk-dot.high{background:var(--amber)}.risk-dot.medium{background:var(--cyan)}.risk-name strong,.risk-name small{display:block}.risk-name strong{font-size:.84rem}.risk-name small,.risk-meta small{font-size:.7rem;color:var(--muted);margin-top:3px}.risk-meta{font-size:.78rem}.score{font-weight:800}.risk-level{font-size:.66rem;font-weight:800;color:#ff8298;text-align:right}.runway-chart{height:170px;display:flex;align-items:end;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding:10px 5px 0}.bar-wrap{height:100%;flex:1;display:flex;align-items:center;flex-direction:column;justify-content:end;gap:6px}.bar{width:100%;max-width:24px;min-height:3px;border-radius:4px 4px 0 0;background:linear-gradient(var(--teal),#0f7e7a);transition:.3s}.bar.danger{background:linear-gradient(var(--red),#9d2641)}.bar-wrap small{font-size:.62rem;color:#7589a4}.chart-legend{display:flex;gap:15px;color:var(--muted);font-size:.67rem;margin-top:12px}.chart-legend i{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:5px}.teal{background:var(--teal)}.red{background:var(--red)}.recommendation-preview p{color:#aebed0;line-height:1.6;max-width:850px;font-size:.88rem}.impact-strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);margin-top:17px;padding-top:15px}.impact-strip div+div{border-left:1px solid var(--line);padding-left:18px}.impact-strip span,.impact-strip strong{display:block}.impact-strip span{color:var(--muted);font-size:.68rem}.impact-strip strong{margin-top:5px;font-size:1.05rem}.feed{list-style:none;padding:0;margin:0}.feed li{display:flex;gap:11px;padding:12px 0;border-top:1px solid var(--line);align-items:center}.feed li:first-child{border-top:0}.feed i{width:8px;height:8px;border-radius:50%;background:var(--cyan)}.feed i.danger{background:var(--red)}.feed i.warning{background:var(--amber)}.feed strong,.feed small{display:block;font-size:.76rem}.feed small{color:var(--muted);margin-top:3px;font-size:.66rem}.scenario-layout{display:grid;grid-template-columns:290px 1fr;gap:16px;align-items:start}.controls-panel{position:sticky;top:18px}.controls-panel h2{font-size:1.2rem;margin-bottom:22px}.controls-panel label{display:block;color:#9cb0c7;font-size:.75rem;margin:15px 0}.controls-panel output{float:right;color:var(--teal);font-weight:800}.controls-panel select,.controls-panel input[type=number]{width:100%;margin-top:7px;border:1px solid #30415b;background:#0a1726;color:var(--text);padding:10px;border-radius:7px;font:inherit;font-size:.8rem}.controls-panel input[type=range]{width:100%;margin-top:11px;accent-color:var(--teal)}.full{width:100%;margin-top:9px}.results-column{display:grid;gap:14px}.scenario-summary{border-left:3px solid var(--red);background:rgba(251,84,113,.07);padding:13px 16px;border-radius:3px 8px 8px 3px;color:#c6d3e1;font-size:.82rem;line-height:1.5}.result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.metric-result{padding:16px}.metric-result strong{display:block;font-size:1.5rem;margin:9px 0 5px}.metric-result em{font-style:normal;color:var(--muted);font-size:.67rem}.metric-result #riskLabel{color:#ff8298;font-weight:800}.cascade{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}.cascade-step{position:relative;border:1px solid #30435e;background:#0a1726;padding:13px;border-radius:8px;min-height:95px}.cascade-step:not(:last-child):after{content:'→';position:absolute;right:-22px;top:38%;color:#5a708f;font-size:1.2rem}.cascade-step span{font-size:.65rem;color:var(--red);font-weight:800}.cascade-step strong,.cascade-step small{display:block}.cascade-step strong{font-size:.8rem;margin:7px 0}.cascade-step small{font-size:.67rem;color:var(--muted);line-height:1.4}.action-card{display:grid;grid-template-columns:34px 1fr auto;gap:13px;align-items:start;padding:14px 0;border-top:1px solid var(--line)}.action-card:first-child{border-top:0}.rank{width:30px;height:30px;border-radius:7px;background:rgba(45,212,191,.12);color:var(--teal);display:grid;place-items:center;font-size:.75rem;font-weight:900}.action-card strong{font-size:.83rem}.action-card p{font-size:.72rem;color:var(--muted);margin:5px 0 8px}.action-metrics{display:flex;gap:14px;color:#9fb0c4;font-size:.65rem}.action-card button{border:1px solid #315068;background:#102638;color:var(--teal);padding:7px 10px;border-radius:6px;font-size:.68rem}.evidence-panel ul{margin:0;padding-left:20px;color:#aebed0}.evidence-panel li{padding:6px;line-height:1.45;font-size:.78rem}.map-panel{min-height:600px}.network-map{overflow:auto}.network-map svg{width:100%;min-width:800px;height:auto}.edges path{fill:none;stroke:#536179;stroke-width:2;marker-end:url(#arrow)}.edges path.hot{stroke:var(--red);stroke-width:3;stroke-dasharray:7 5;marker-end:url(#arrowRed);animation:flow 1.2s linear infinite}@keyframes flow{to{stroke-dashoffset:-24}}.node rect{fill:#101f31;stroke:#30445f;stroke-width:2}.node text{fill:#e9f2ff;text-anchor:middle;font-size:13px;font-weight:700}.node text.sub{fill:#7f95b2;font-size:9px;letter-spacing:1px}.danger-node rect{stroke:var(--red);fill:rgba(251,84,113,.09)}.danger-node text.sub{fill:#ff8298}.warning-node rect{stroke:var(--amber);fill:rgba(251,191,36,.06)}.warning-node text.sub{fill:var(--amber)}.map-insight{max-width:780px;margin:auto;border-left:3px solid var(--teal);padding:10px 15px;background:rgba(45,212,191,.05)}.map-insight strong{font-size:.8rem}.map-insight p{margin:4px 0 0;color:var(--muted);font-size:.76rem;line-height:1.5}.data-grid{display:grid;grid-template-columns:2fr 1fr;gap:14px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:.78rem}th{text-align:left;color:#7187a3;font-size:.65rem;letter-spacing:.08em;padding:10px;border-bottom:1px solid var(--line)}td{padding:13px 10px;border-bottom:1px solid var(--line);color:#b9c7d8}.status-pill{font-size:.62rem;font-weight:800;padding:5px 7px;border-radius:10px;background:rgba(52,211,153,.1);color:var(--green)}.status-pill.risk{background:rgba(251,84,113,.1);color:#ff8298}.source-list{display:grid;margin-top:16px}.source-list span{border-top:1px solid var(--line);padding:12px 0;color:#9bacc0;font-size:.75rem}.source-list b{float:right;color:var(--green);font-size:.66rem}.toast{position:fixed;bottom:25px;right:25px;background:#effffc;color:#062d29;border-left:4px solid var(--teal);padding:12px 18px;border-radius:8px;font-size:.8rem;font-weight:700;opacity:0;transform:translateY(15px);pointer-events:none;transition:.25s;z-index:100}.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:1050px){.sidebar{width:78px;padding:22px 11px}.brand{padding:0 8px 28px}.brand>span:last-child,.nav-item span,.nav-item{font-size:0}.nav-item{height:45px;text-align:center}.nav-item:after{font-size:.7rem}.nav-item:nth-child(1):after{content:'MGR'}.nav-item:nth-child(2):after{content:'LAB'}.nav-item:nth-child(3):after{content:'MAP'}.nav-item:nth-child(4):after{content:'DATA'}.nav-item:nth-child(5):after{content:'VENDOR'}.system-state div{display:none}.system-state{justify-content:center}.system-state .pulse{margin:auto}main{margin-left:78px}.dashboard-grid{grid-template-columns:1fr 1fr}.dashboard-grid .span-2{grid-column:span 2}.scenario-layout{grid-template-columns:250px 1fr}.result-grid{grid-template-columns:1fr 1fr}.cascade{grid-template-columns:1fr 1fr}.cascade-step:after{display:none}}
+@media(max-width:720px){.sidebar{position:fixed;width:100%;height:62px;inset:auto 0 0;padding:7px 10px;flex-direction:row;background:#07111f}.brand,.system-state{display:none}.sidebar nav{display:grid;grid-template-columns:repeat(4,1fr);width:100%}.nav-item{height:47px;padding:5px}.nav-item.active{box-shadow:inset 0 -3px var(--teal)}main{margin-left:0;padding:0 15px 88px}.topbar{min-height:90px}.topbar h1{font-size:1.35rem}.timestamp,#resetDemo{display:none}.top-actions .primary{padding:9px}.alert-banner{align-items:flex-start}.alert-banner button{display:none}.kpi-grid,.result-grid{grid-template-columns:1fr 1fr}.dashboard-grid,.data-grid{grid-template-columns:1fr}.span-2,.dashboard-grid .span-2{grid-column:auto}.scenario-layout{grid-template-columns:1fr}.controls-panel{position:static}.cascade{grid-template-columns:1fr}.impact-strip{grid-template-columns:1fr;gap:12px}.impact-strip div+div{border-left:0;padding-left:0}.risk-row{grid-template-columns:7px 1fr .35fr}.risk-meta,.risk-level{display:none}}
+
+  .controls-panel input[type=text],.controls-panel textarea{width:100%;margin-top:7px;border:1px solid #30415b;background:#0a1726;color:var(--text);padding:10px;border-radius:7px;font:inherit;font-size:.8rem}.controls-panel textarea{resize:vertical}#roleSwitch{border:1px solid #31435d;background:#0a1726;color:#dce8f6;padding:9px;border-radius:8px;font-size:.75rem}@media(max-width:720px){.sidebar nav{grid-template-columns:repeat(5,1fr)}}
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#dashboard" aria-label="ChainSight dashboard">
+      <span class="brand-mark">CS</span>
+      <span><strong>ChainSight</strong><small>Decision Intelligence</small></span>
+    </a>
+    <nav aria-label="Main navigation">
+      <button class="nav-item active" data-view="dashboard"><span>01</span> Control tower</button>
+      <button class="nav-item" data-view="scenario"><span>02</span> Scenario lab</button>
+      <button class="nav-item" data-view="network"><span>03</span> Dependency map</button>
+      <button class="nav-item" data-view="data"><span>04</span> Signal data</button>
+      <button class="nav-item" data-view="vendor"><span>05</span> Vendor portal</button>
+    </nav>
+    <div class="system-state">
+      <span class="pulse"></span>
+      <div><strong id="connectionState">Offline engine active</strong><small id="connectionDetail">No setup or database required</small></div>
+    </div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">SUPPLY CHAIN / INDIA OPERATIONS</p>
+        <h1 id="viewTitle">Operations control tower</h1>
+      </div>
+      <div class="top-actions">
+        <select id="roleSwitch" aria-label="Select dashboard role"><option value="manager">Manager dashboard</option><option value="vendor">Vendor dashboard</option></select>
+        <span class="timestamp" id="timestamp"></span>
+        <button class="secondary" id="installApp" hidden>Install app</button>
+        <button class="secondary" id="resetDemo">Reset demo</button>
+        <button class="primary" data-go-scenario>Run scenario</button>
+      </div>
+    </header>
+
+    <section class="view active" id="dashboard">
+      <div class="alert-banner">
+        <div class="alert-icon">!</div>
+        <div>
+          <strong>Critical risk detected: Supplier A interruption</strong>
+          <p>Microchip X supply may stop for 10 days. Production exposure begins in 5 days.</p>
+        </div>
+        <button data-go-scenario>Investigate →</button>
+      </div>
+
+      <div class="kpi-grid">
+        <article class="kpi"><span>Network health</span><strong>72<small>/100</small></strong><em class="down">↓ 11 points</em></article>
+        <article class="kpi"><span>Active risks</span><strong>4</strong><em>1 critical</em></article>
+        <article class="kpi"><span>Inventory coverage</span><strong>5<small> days</small></strong><em class="down">Below target</em></article>
+        <article class="kpi"><span>Orders exposed</span><strong>150</strong><em>₹5.0L at risk</em></article>
+      </div>
+
+      <div class="dashboard-grid">
+        <article class="panel span-2">
+          <div class="panel-head"><div><p class="eyebrow">RISK PRIORITIZATION</p><h2>Emerging disruptions</h2></div><span class="badge critical">1 critical</span></div>
+          <div class="risk-list" id="riskList"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><p class="eyebrow">7-DAY OUTLOOK</p><h2>Inventory runway</h2></div></div>
+          <div id="runwayChart" class="runway-chart" aria-label="Inventory runway chart"></div>
+          <div class="chart-legend"><span><i class="teal"></i>Stock</span><span><i class="red"></i>Shortage</span></div>
+        </article>
+        <article class="panel span-2 recommendation-preview">
+          <div class="panel-head"><div><p class="eyebrow">AI RECOMMENDATION</p><h2>Act before inventory reaches safety stock</h2></div><span class="confidence">94% confidence</span></div>
+          <p>Place an emergency order with Supplier B and transfer available stock from Warehouse W2. This prevents a production stop while limiting premium cost.</p>
+          <div class="impact-strip">
+            <div><span>Loss avoided</span><strong>₹4.4L</strong></div>
+            <div><span>Fulfilment retained</span><strong>95%</strong></div>
+            <div><span>Response window</span><strong>48 hrs</strong></div>
+          </div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><p class="eyebrow">SIGNAL STREAM</p><h2>Latest evidence</h2></div></div>
+          <ul class="feed">
+            <li><i class="danger"></i><div><strong>Supplier A unavailable</strong><small>Confirmed · 2 min ago</small></div></li>
+            <li><i class="warning"></i><div><strong>Microchip X below buffer</strong><small>ERP inventory · 5 min ago</small></div></li>
+            <li><i class="info"></i><div><strong>Demand forecast +8%</strong><small>Forecast engine · 12 min ago</small></div></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="view" id="scenario">
+      <div class="scenario-layout">
+        <article class="panel controls-panel">
+          <p class="eyebrow">WHAT-IF INPUTS</p><h2>Configure disruption</h2>
+          <label>Disruption type<select id="disruptionType"><option value="supplier">Supplier unavailable</option><option value="route">Transport route closed</option><option value="demand">Demand surge</option></select></label>
+          <label>Affected resource<select id="resource"></select></label>
+          <label>Disruption duration <output id="durationOut">10 days</output><input id="duration" type="range" min="1" max="30" value="10"></label>
+          <label>Demand change <output id="demandOut">+8%</output><input id="demandChange" type="range" min="-20" max="60" value="8"></label>
+          <label>Current inventory (units)<input id="inventory" type="number" min="0" value="500"></label>
+          <label>Daily consumption (units)<input id="consumption" type="number" min="1" value="100"></label>
+          <button class="primary full" id="analyse">Analyse scenario</button>
+          <button class="secondary full" id="loadExample">Load example scenario</button>
+        </article>
+
+        <div class="results-column">
+          <div class="scenario-summary" id="scenarioSummary"></div>
+          <div class="result-grid">
+            <article class="panel metric-result"><span>Risk score</span><strong id="riskScore">89</strong><em id="riskLabel">CRITICAL</em></article>
+            <article class="panel metric-result"><span>Stockout begins</span><strong id="stockoutDay">Day 6</strong><em id="coverageLabel">5 days cover</em></article>
+            <article class="panel metric-result"><span>Production loss</span><strong id="productionLoss">500</strong><em>units estimated</em></article>
+            <article class="panel metric-result"><span>Financial exposure</span><strong id="financialLoss">₹5.0L</strong><em>before mitigation</em></article>
+          </div>
+          <article class="panel">
+            <div class="panel-head"><div><p class="eyebrow">CASCADE FORECAST</p><h2>What is likely to happen next</h2></div></div>
+            <div id="cascade" class="cascade"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><p class="eyebrow">MITIGATION OPTIMIZER</p><h2>Ranked action plan</h2></div><span class="confidence">Evidence-based</span></div>
+            <div id="recommendations" class="recommendations"></div>
+          </article>
+          <article class="panel evidence-panel">
+            <div class="panel-head"><div><p class="eyebrow">EXPLAINABLE AI</p><h2>Reasoning and evidence</h2></div><button class="secondary" id="downloadReport">Download report</button></div>
+            <ul id="evidence"></ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="network">
+      <article class="panel map-panel">
+        <div class="panel-head"><div><p class="eyebrow">RELATIONSHIP ANALYSIS</p><h2>Supply dependency map</h2></div><span class="badge critical">Disruption path highlighted</span></div>
+        <div class="network-map" aria-label="Supply chain dependency diagram">
+          <svg viewBox="0 0 1000 480" role="img">
+            <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#536179"/></marker><marker id="arrowRed" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#f43f5e"/></marker></defs>
+            <g class="edges"><path class="hot" d="M170 120 C250 120 245 210 335 210"/><path d="M170 350 C250 350 245 240 335 240"/><path class="hot" d="M455 220 L555 220"/><path class="hot" d="M675 220 L765 145"/><path d="M675 220 L765 320"/><path class="hot" d="M875 145 L940 145"/></g>
+            <g class="node danger-node" transform="translate(45 75)"><rect width="125" height="90" rx="12"/><text x="62" y="36">Supplier A</text><text class="sub" x="62" y="60">UNAVAILABLE</text></g>
+            <g class="node" transform="translate(45 305)"><rect width="125" height="90" rx="12"/><text x="62" y="36">Supplier B</text><text class="sub" x="62" y="60">AVAILABLE</text></g>
+            <g class="node warning-node" transform="translate(335 175)"><rect width="120" height="90" rx="12"/><text x="60" y="36">Microchip X</text><text class="sub" x="60" y="60">5 DAYS LEFT</text></g>
+            <g class="node warning-node" transform="translate(555 175)"><rect width="120" height="90" rx="12"/><text x="60" y="36">Factory F1</text><text class="sub" x="60" y="60">AT RISK</text></g>
+            <g class="node warning-node" transform="translate(765 100)"><rect width="110" height="90" rx="12"/><text x="55" y="36">Product P1</text><text class="sub" x="55" y="60">EXPOSED</text></g>
+            <g class="node" transform="translate(765 275)"><rect width="110" height="90" rx="12"/><text x="55" y="36">Product P2</text><text class="sub" x="55" y="60">STABLE</text></g>
+            <g class="node danger-node" transform="translate(900 100)"><rect width="95" height="90" rx="12"/><text x="47" y="34">150</text><text class="sub" x="47" y="60">ORDERS</text></g>
+          </svg>
+        </div>
+        <div class="map-insight"><strong>Propagation insight</strong><p>Supplier A provides 80% of Microchip X. Its loss threatens Factory F1, Product P1 and 150 customer orders. Supplier B is the nearest viable recovery path.</p></div>
+      </article>
+    </section>
+
+    <section class="view" id="data">
+      <div class="data-grid">
+        <article class="panel span-2"><div class="panel-head"><div><p class="eyebrow">HETEROGENEOUS SIGNALS</p><h2>Connected operational data</h2></div><button class="secondary" id="simulateUpdate">Simulate live update</button></div><div class="table-wrap"><table><thead><tr><th>Signal</th><th>Source</th><th>Current value</th><th>Status</th><th>Updated</th></tr></thead><tbody id="signalTable"></tbody></table></div></article>
+        <article class="panel"><p class="eyebrow">DATA COVERAGE</p><h2>6 sources connected</h2><div class="source-list"><span>ERP inventory <b>Live</b></span><span>Supplier portal <b>Live</b></span><span>Transport GPS <b>Live</b></span><span>Demand forecast <b>Live</b></span><span>Order management <b>Live</b></span><span>External risk feed <b>Live</b></span></div></article>
+      </div>
+    </section>
+
+    <section class="view" id="vendor">
+      <div class="data-grid">
+        <article class="panel controls-panel">
+          <p class="eyebrow">VENDOR COLLABORATION</p><h2>Publish operational update</h2>
+          <label>Vendor name<input id="vendorName" type="text" value="Supplier A"></label>
+          <label>Material<input id="vendorMaterial" type="text" value="Microchip X"></label>
+          <label>Availability<select id="vendorAvailability"><option value="available">Available</option><option value="limited">Limited</option><option value="unavailable">Unavailable</option></select></label>
+          <label>Available capacity<input id="vendorCapacity" type="number" min="0" value="0"></label>
+          <label>Lead time (days)<input id="vendorLeadTime" type="number" min="0" value="10"></label>
+          <label>Shipment status<select id="vendorShipment"><option value="on_schedule">On schedule</option><option value="delayed">Delayed</option><option value="blocked">Blocked</option></select></label>
+          <label>Evidence / message<textarea id="vendorMessage" rows="4">Plant maintenance has interrupted production.</textarea></label>
+          <button class="primary full" id="publishVendorUpdate">Publish live update</button>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><p class="eyebrow">SHARED LIVE FEED</p><h2>Latest vendor updates</h2></div><span class="confidence" id="liveStatus">Refreshing every 5s</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Vendor</th><th>Material</th><th>Availability</th><th>Shipment</th><th>Lead time</th><th>Updated</th></tr></thead><tbody id="vendorUpdateTable"></tbody></table></div>
+        </article>
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+window.CHAINSIGHT_CONFIG={apiUrl:'http://localhost:8000'};
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => [...document.querySelectorAll(s)];
+const API=(window.CHAINSIGHT_CONFIG?.apiUrl||'http://localhost:8000').replace(/\/$/,'');
+
+const risks = [
+  {name:'Supplier A interruption', detail:'Microchip X · Factory F1', impact:'₹5.0L exposure', score:89, level:'CRITICAL', cls:''},
+  {name:'Mumbai–Pune route congestion', detail:'Route R3 · 2 shipments', impact:'8 hr delay', score:68, level:'HIGH', cls:'high'},
+  {name:'Demand variance', detail:'Product P2 · South region', impact:'+8% forecast', score:51, level:'MEDIUM', cls:'medium'},
+  {name:'Warehouse capacity', detail:'Warehouse W1', impact:'86% utilized', score:37, level:'MEDIUM', cls:'medium'}
+];
+const resources = {
+  supplier:['Supplier A — Microchip X','Supplier C — Battery Cell','Supplier D — Packaging'],
+  route:['Route R1 — Chennai–Bengaluru','Route R3 — Mumbai–Pune','Port Route P2 — Nhava Sheva'],
+  demand:['Product P1 demand','Product P2 demand','South region demand']
+};
+const signalRows = [
+  ['Supplier availability','Supplier portal','Supplier A: unavailable','risk','2 min ago'],
+  ['Inventory','ERP','Microchip X: 500 units','risk','5 min ago'],
+  ['Transportation','GPS / TMS','Route R3: +8 hours','risk','7 min ago'],
+  ['Demand forecast','Forecast engine','Product P1: +8%','ok','12 min ago'],
+  ['Customer orders','Order system','150 orders exposed','risk','3 min ago'],
+  ['External risk','Risk feed','Weather: normal','ok','18 min ago']
+];
+
+async function init(){
+  $('#timestamp').textContent = new Intl.DateTimeFormat('en-IN',{dateStyle:'medium',timeStyle:'short'}).format(new Date());
+  renderRisks(); renderRunway(); renderSignals(); updateResources(); analyse();
+  $$('.nav-item').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+  $$('[data-go-scenario]').forEach(b=>b.addEventListener('click',()=>showView('scenario')));
+  $('#disruptionType').addEventListener('change',()=>{updateResources(); analyse();});
+  ['duration','demandChange'].forEach(id=>$('#'+id).addEventListener('input',()=>{updateOutputs();analyse();}));
+  ['resource','inventory','consumption'].forEach(id=>$('#'+id).addEventListener('change',analyse));
+  $('#analyse').addEventListener('click',()=>{analyse();toast('Scenario analysed with latest inputs');});
+  $('#loadExample').addEventListener('click',loadExample);
+  $('#resetDemo').addEventListener('click',loadExample);
+  $('#downloadReport').addEventListener('click',downloadReport);
+  $('#simulateUpdate').addEventListener('click',()=>{signalRows[2][2]='Route R3: +11 hours';signalRows[2][4]='now';renderSignals();toast('New transport signal received');});
+  $('#roleSwitch').addEventListener('change',e=>showView(e.target.value==='vendor'?'vendor':'dashboard'));
+  $('#publishVendorUpdate').addEventListener('click',publishVendorUpdate);
+  updateOutputs();
+  await connectDatabase();
+  await refreshVendorUpdates();
+  setInterval(refreshVendorUpdates,5000);
+}
+
+async function connectDatabase(){
+  const cfg=window.CHAINSIGHT_CONFIG||{};
+  if(!cfg.supabaseUrl||!cfg.supabaseAnonKey||cfg.supabaseUrl.includes('YOUR_')) return;
+  try{
+    const db=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey);
+    window.chainSightDb=db;
+    const [{data:suppliers,error:e1},{data:inventory,error:e2},{data:routes,error:e3},{data:forecasts,error:e4}]=await Promise.all([
+      db.from('suppliers').select('*').order('risk_score',{ascending:false}),
+      db.from('inventory').select('*, materials(material_name)').order('updated_at',{ascending:false}),
+      db.from('transport_routes').select('*').order('risk_score',{ascending:false}),
+      db.from('demand_forecasts').select('*, products(product_name)').order('forecast_date',{ascending:false}).limit(5)
+    ]);
+    if(e1||e2||e3||e4) throw e1||e2||e3||e4;
+    const dbSignals=[
+      ...(suppliers||[]).slice(0,2).map(x=>['Supplier availability','Supabase PostgreSQL',`${x.supplier_name}: ${x.availability_status}`,x.availability_status==='available'?'ok':'risk','live']),
+      ...(inventory||[]).slice(0,2).map(x=>['Inventory','Supabase PostgreSQL',`${x.materials?.material_name||'Material'}: ${x.current_quantity} units`,x.current_quantity<=x.safety_stock?'risk':'ok','live']),
+      ...(routes||[]).slice(0,1).map(x=>['Transportation','Supabase PostgreSQL',`${x.route_code}: ${x.current_delay_hours} hr delay`,x.risk_score>60?'risk':'ok','live']),
+      ...(forecasts||[]).slice(0,1).map(x=>['Demand forecast','Supabase PostgreSQL',`${x.products?.product_name||'Product'}: ${x.predicted_demand} units`,'ok','live'])
+    ];
+    if(dbSignals.length){signalRows.splice(0,signalRows.length,...dbSignals);renderSignals();}
+    $('#connectionState').textContent='Supabase connected';
+    $('#connectionDetail').textContent=`${dbSignals.length} live signals · Realtime on`;
+    db.channel('chainsight-live').on('postgres_changes',{event:'*',schema:'public'},()=>refreshLiveData()).subscribe();
+    toast('Live PostgreSQL data connected');
+  }catch(err){
+    console.warn('Database connection unavailable:',err.message);
+    $('#connectionState').textContent='Demo engine active';
+    $('#connectionDetail').textContent='Database unavailable · using safe fallback';
+  }
+}
+async function refreshLiveData(){
+  $('#connectionDetail').textContent='New database event received now';
+  toast('Realtime supply-chain update received');
+}
+function showView(id){
+  $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));
+  $$('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.view===id));
+  // Keep the role selector synchronized with portal navigation. Without this,
+  // opening Vendor Portal while the selector still said Manager prevented the
+  // user from switching back because the select value never changed.
+  const roleSwitch=$('#roleSwitch');
+  if(roleSwitch) roleSwitch.value=id==='vendor'?'vendor':'manager';
+  const titles={dashboard:'Operations control tower',scenario:'Disruption scenario lab',network:'Supply dependency map',data:'Connected signal data',vendor:'Vendor collaboration portal'};
+  $('#viewTitle').textContent=titles[id]; window.scrollTo({top:0,behavior:'smooth'});
+}
+async function publishVendorUpdate(){
+  const button=$('#publishVendorUpdate');button.disabled=true;button.textContent='Publishing…';
+  try{
+    const payload={vendor_name:$('#vendorName').value,material:$('#vendorMaterial').value,availability_status:$('#vendorAvailability').value,available_capacity:Number($('#vendorCapacity').value),lead_time_days:Number($('#vendorLeadTime').value),shipment_status:$('#vendorShipment').value,message:$('#vendorMessage').value};
+    const response=await fetch(`${API}/vendor-updates`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(!response.ok) throw new Error('Update rejected');
+    const result=await response.json();toast(`Update published · risk score ${result.risk_score}`);await refreshVendorUpdates();
+  }catch(error){toast('Could not publish update — check backend');}
+  finally{button.disabled=false;button.textContent='Publish live update';}
+}
+async function refreshVendorUpdates(){
+  try{
+    const response=await fetch(`${API}/vendor-updates`);if(!response.ok)return;
+    const rows=await response.json();
+    $('#vendorUpdateTable').innerHTML=rows.length?rows.map(x=>`<tr><td><strong>${escapeHtml(x.vendor_name)}</strong></td><td>${escapeHtml(x.material)}</td><td><span class="status-pill ${x.availability_status==='available'?'':'risk'}">${escapeHtml(x.availability_status).toUpperCase()}</span></td><td>${escapeHtml(x.shipment_status)}</td><td>${x.lead_time_days} days</td><td>${new Date(x.observed_at).toLocaleTimeString()}</td></tr>`).join(''):'<tr><td colspan="6">No vendor updates yet</td></tr>';
+    if(rows.length){const x=rows[0];signalRows[0]=['Vendor availability','Vendor portal',`${x.vendor_name}: ${x.availability_status}`,x.availability_status==='available'?'ok':'risk','live'];renderSignals();}
+    $('#liveStatus').textContent='Live · '+new Date().toLocaleTimeString();
+  }catch(error){$('#liveStatus').textContent='Reconnecting…';}
+}
+function escapeHtml(value){const node=document.createElement('div');node.textContent=String(value??'');return node.innerHTML;}
+function renderRisks(){
+  $('#riskList').innerHTML=risks.map(r=>`<div class="risk-row"><i class="risk-dot ${r.cls}"></i><div class="risk-name"><strong>${r.name}</strong><small>${r.detail}</small></div><div class="risk-meta">${r.impact}<small>Potential impact</small></div><span class="score">${r.score}</span><span class="risk-level">${r.level}</span></div>`).join('');
+}
+function renderRunway(){
+  const stocks=[500,400,300,200,100,0,-100];
+  $('#runwayChart').innerHTML=stocks.map((v,i)=>`<div class="bar-wrap"><div class="bar ${v<=0?'danger':''}" style="height:${Math.max(5,Math.abs(v)/5)}%"></div><small>D${i+1}</small></div>`).join('');
+}
+function renderSignals(){
+  $('#signalTable').innerHTML=signalRows.map(r=>`<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td><span class="status-pill ${r[3]==='risk'?'risk':''}">${r[3]==='risk'?'ATTENTION':'NORMAL'}</span></td><td>${r[4]}</td></tr>`).join('');
+}
+function updateResources(){
+  const type=$('#disruptionType').value; $('#resource').innerHTML=resources[type].map(x=>`<option>${x}</option>`).join('');
+}
+function updateOutputs(){
+  $('#durationOut').textContent=$('#duration').value+' days';
+  const d=Number($('#demandChange').value); $('#demandOut').textContent=(d>=0?'+':'')+d+'%';
+}
+function getScenario(){
+  const type=$('#disruptionType').value, duration=Number($('#duration').value), inventory=Math.max(0,Number($('#inventory').value)||0), baseConsumption=Math.max(1,Number($('#consumption').value)||1), demand=Number($('#demandChange').value);
+  const adjusted=baseConsumption*(1+demand/100), coverage=inventory/adjusted;
+  let gapDays=Math.max(0,duration-coverage), loss=Math.ceil(gapDays*adjusted);
+  if(type==='route') loss=Math.ceil(loss*.65); if(type==='demand') loss=Math.ceil(Math.max(0,(adjusted-baseConsumption)*duration));
+  const orders=Math.ceil(loss*.3), financial=loss*1000;
+  const dependency=type==='supplier'?80:type==='route'?65:55;
+  const probability=Math.min(100,55+duration*1.5+Math.max(0,demand)*.35);
+  const impact=Math.min(100,35+loss/10+dependency*.3);
+  const urgency=Math.min(100,100-Math.min(coverage,20)*4);
+  const score=Math.round(probability*.35+impact*.4+urgency*.25);
+  return {type,duration,inventory,baseConsumption,demand,adjusted,coverage,gapDays,loss,orders,financial,dependency,score,resource:$('#resource').value};
+}
+function level(score){return score>=81?'CRITICAL':score>=61?'HIGH':score>=31?'MEDIUM':'LOW'}
+function money(n){return n>=100000?'₹'+(n/100000).toFixed(1)+'L':'₹'+Math.round(n/1000)+'K'}
+async function analyse(){
+  updateOutputs(); const s=getScenario(), label=level(s.score), stockout=Math.floor(s.coverage)+1;
+  $('#riskScore').textContent=s.score; $('#riskLabel').textContent=label;
+  $('#stockoutDay').textContent=s.loss?`Day ${stockout}`:'No stockout'; $('#coverageLabel').textContent=s.coverage.toFixed(1)+' days cover';
+  $('#productionLoss').textContent=s.loss.toLocaleString('en-IN'); $('#financialLoss').textContent=money(s.financial);
+  $('#scenarioSummary').innerHTML=`<strong>${label}:</strong> ${s.resource} is disrupted for ${s.duration} days. At the adjusted usage rate of ${Math.round(s.adjusted)} units/day, current stock supports ${s.coverage.toFixed(1)} days and ${s.orders} orders may be exposed.`;
+  const steps=[
+    ['NOW','Resource disrupted',`${s.resource} becomes unavailable`],
+    [`DAY ${Math.max(1,stockout-2)}`,'Safety stock breached',`Buffer falls below 200 units`],
+    [`DAY ${stockout}`,'Production constrained',`${s.loss.toLocaleString('en-IN')} units at risk`],
+    [`DAY ${s.duration}`,'Customer impact',`${s.orders} orders · ${money(s.financial)} exposure`]
+  ];
+  $('#cascade').innerHTML=steps.map(x=>`<div class="cascade-step"><span>${x[0]}</span><strong>${x[1]}</strong><small>${x[2]}</small></div>`).join('');
+  const emergency=Math.ceil(s.loss*.8), transfer=Math.min(100,Math.ceil(s.loss*.2));
+  const actions=[
+    [`Order ${emergency} units from Supplier B`,`3-day lead time; prevents the largest part of the shortage. Premium cost is lower than ${money(s.financial)} disruption exposure.`,`Risk ↓ ${Math.min(58,s.score-18)} pts`,`Cost ₹${Math.max(18,Math.round(emergency*.12))}K`],
+    [`Transfer ${transfer} units from Warehouse W2`,`Use network inventory to bridge the gap until alternative supply arrives.`,`Response 1 day`,`Feasibility 92%`],
+    ['Prioritize high-value customer orders',`Allocate remaining stock to urgent orders and reschedule lower-margin production.`,`Service 95%`,`No purchase cost`]
+  ];
+  $('#recommendations').innerHTML=actions.map((a,i)=>`<div class="action-card"><span class="rank">${i+1}</span><div><strong>${a[0]}</strong><p>${a[1]}</p><div class="action-metrics"><span>${a[2]}</span><span>${a[3]}</span></div></div><button>SELECT</button></div>`).join('');
+  $('#evidence').innerHTML=[
+    `${s.resource} has a ${s.dependency}% dependency contribution in the affected flow.`,
+    `Inventory of ${s.inventory} units covers only ${s.coverage.toFixed(1)} days at the forecast consumption of ${Math.round(s.adjusted)} units/day.`,
+    `The disruption lasts ${s.duration} days, creating an estimated gap of ${s.gapDays.toFixed(1)} days and ${s.loss.toLocaleString('en-IN')} units.`,
+    `Without mitigation, approximately ${s.orders} orders and ${money(s.financial)} in operational value are exposed.`,
+    `Supplier B is ranked first because its 3-day lead time is within the remaining inventory window and its premium is below the avoided-loss estimate.`
+  ].map(x=>`<li>${x}</li>`).join('');
+  window.lastScenario=s;
+  const cfg=window.CHAINSIGHT_CONFIG||{};
+  if(cfg.apiUrl&&!cfg.apiUrl.includes('YOUR_')){
+    try{
+      const res=await fetch(`${cfg.apiUrl.replace(/\/$/,'')}/analyse`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({disruption_type:s.type,resource:s.resource,duration_days:s.duration,demand_change_percent:s.demand,current_inventory:s.inventory,daily_consumption:s.baseConsumption,unit_value:1000})});
+      if(res.ok){const ai=await res.json();applyAIResult(ai);}
+    }catch(err){console.warn('AI service unavailable; local explainable engine retained.');}
+  }
+}
+function applyAIResult(ai){
+  $('#riskScore').textContent=ai.risk.score;$('#riskLabel').textContent=ai.risk.level;
+  $('#scenarioSummary').innerHTML=`<strong>${ai.risk.level}:</strong> ${ai.summary}`;
+  if(ai.recommendations?.length) $('#recommendations').innerHTML=ai.recommendations.map((a,i)=>`<div class="action-card"><span class="rank">${i+1}</span><div><strong>${a.action}</strong><p>${a.reason}</p><div class="action-metrics"><span>Risk reduction ${a.risk_reduction}%</span><span>Score ${a.score}</span></div></div><button>SELECT</button></div>`).join('');
+  if(ai.evidence?.length) $('#evidence').innerHTML=ai.evidence.map(x=>`<li>${x}</li>`).join('');
+}
+function loadExample(){
+  $('#disruptionType').value='supplier';updateResources();$('#duration').value=10;$('#demandChange').value=8;$('#inventory').value=500;$('#consumption').value=100;analyse();toast('Example scenario restored');
+}
+function downloadReport(){
+  const s=window.lastScenario||getScenario();
+  const report=`CHAINSIGHT — DISRUPTION DECISION REPORT\nGenerated: ${new Date().toLocaleString('en-IN')}\n\nSCENARIO\n${s.resource} unavailable/disrupted for ${s.duration} days\nDemand change: ${s.demand}%\n\nRISK ASSESSMENT\nRisk score: ${s.score}/100 (${level(s.score)})\nInventory coverage: ${s.coverage.toFixed(1)} days\nProduction loss: ${s.loss} units\nOrders exposed: ${s.orders}\nFinancial exposure: ${money(s.financial)}\n\nRECOMMENDED ACTIONS\n1. Place emergency order with Supplier B.\n2. Transfer available stock from Warehouse W2.\n3. Prioritize high-value customer orders.\n\nREASONING\nCurrent inventory cannot cover the disruption window. Supplier B's 3-day lead time falls inside the remaining stock runway, so the premium procurement cost is lower than the estimated disruption loss.\n\nPrototype decision-support output; validate operational data before execution.`;
+  const blob=new Blob([report],{type:'text/plain'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='chainsight-decision-report.txt';a.click();URL.revokeObjectURL(a.href);toast('Decision report downloaded');
+}
+function toast(message){const t=$('#toast');t.textContent=message;t.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
+init();
+
+let deferredInstallPrompt;
+const installButton=document.querySelector('#installApp');
+window.addEventListener('beforeinstallprompt',(event)=>{
+  event.preventDefault();
+  deferredInstallPrompt=event;
+  installButton.hidden=false;
+});
+installButton.addEventListener('click',async()=>{
+  if(!deferredInstallPrompt){toast('Use the browser menu and select Install ChainSight');return;}
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt=null;
+  installButton.hidden=true;
+});
+window.addEventListener('appinstalled',()=>toast('ChainSight installed successfully'));
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+
+  </script>
+</body>
+</html>

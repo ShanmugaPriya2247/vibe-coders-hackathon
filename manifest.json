@@ -1,0 +1,27 @@
+{
+  "name": "ChainSight Supply Chain Intelligence",
+  "short_name": "ChainSight",
+  "description": "AI-assisted supply-chain risk detection, impact analysis and mitigation planning.",
+  "id": "./index.html",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#07101c",
+  "theme_color": "#07101c",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
